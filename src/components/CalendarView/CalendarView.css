@@ -1,0 +1,60 @@
+/* CalendarView.css */
+
+.calendar {
+    display: flex;
+    flex-direction: column;
+    width: 80%; /* 設定 CalendarView 的寬度為 80% */
+    max-width: 800px; /* 可選，設定最大寬度，根據需要調整 */
+    height: auto;
+  }
+
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  
+  .col {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .col-center {
+    text-align: center;
+  }
+  
+  .days .col {
+    font-weight: bold;
+  }
+  
+  .cell {
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ddd;
+  }
+  
+  .cell.disabled {
+    background-color: #f5f5f5;
+    color: #ddd;
+  }
+  
+  .cell.selected {
+    background-color: #2c3e50;
+    color: white;
+  }
+  
+  .number {
+    font-size: 16px;
+  }
+  

@@ -1,0 +1,49 @@
+{
+  "2024-08-20":[
+    {
+      "type": "飲食",
+      "income_or_expenditure": "income",
+      "cost": 30,
+      "remark":"早餐"
+    },
+    {
+      "type": "文具",
+      "income_or_expenditure": "expenditure",
+      "cost": 30,
+      "remark":"鉛筆"
+    },
+    {
+      "type": "娛樂",
+      "income_or_expenditure": "income",
+      "cost": 50,
+      "remark":"玩具"
+    },
+    {
+      "type": "飲食",
+      "income_or_expenditure": "income",
+      "cost": 70,
+      "remark":"午餐"
+    }
+  ],
+  "2024-08-21":[
+    {
+      "type": "飲食",
+      "income_or_expenditure": "income",
+      "cost": 30,
+      "remark":"早餐"
+    },
+    {
+      "type": "娛樂",
+      "income_or_expenditure": "income",
+      "cost": 50,
+      "remark":"儲值"
+    },
+    {
+      "type": "飲食",
+      "income_or_expenditure": "income",
+      "cost": 70,
+      "remark":"晚餐"
+    }
+  ]   
+}
+  
