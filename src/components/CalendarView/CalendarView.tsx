@@ -124,10 +124,12 @@ const CalendarView = () => {
       {renderDays()}
       {renderCells()}
       <div className="detail row">
-        <div className="col-md-6">
+        <div className="detail-item col-md-6">
           {DayDetail(selectedDate.toLocaleDateString("en-CA"))}
         </div>
-        <div className="col-md-6">{Add()}</div>
+        <div className="col-md-6">
+          {Add(selectedDate.toLocaleDateString("en-CA"))}
+        </div>
       </div>
     </div>
   );

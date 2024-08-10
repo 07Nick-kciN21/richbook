@@ -58,3 +58,8 @@
     font-size: 16px;
   }
   
+  .detail-item{
+    max-height: 260px; /* 限制高度，2個div的高度總和 (2 x 80px) */
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }

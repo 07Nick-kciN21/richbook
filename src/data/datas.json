@@ -37,6 +37,12 @@
       "income_or_expenditure": "income",
       "cost": 50,
       "remark":"儲值"
+    },
+    {
+      "type": "飲食",
+      "income_or_expenditure": "income",
+      "cost": 70,
+      "remark":"晚餐"
     }
   ],
   "2024-08-22":[
