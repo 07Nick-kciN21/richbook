@@ -1,60 +1,59 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import axios from "axios";
+import React, {
+  FormEvent,
+  useEffect,
+  useState,
+  useRef,
+  ChangeEvent,
+} from "react";
 import { FinancialEntry } from "../CalendarView";
-interface Addprop {
-  setTrigger: React.Dispatch<React.SetStateAction<boolean>>;
+import axios from "axios";
+interface EditProps {
+  setAdd_or_Edit: (value: boolean) => void;
+  editData: FinancialEntry;
   date: string;
 }
-const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
-  const [submit, setSubmit] = useState<boolean>(false);
-  const [formData, setFormData] = useState<FinancialEntry>({
-    income_or_expenditure: "income",
-    type: "",
-    cost: 0,
-    remark: "",
-    id: "",
-  });
+const Edit: React.FC<EditProps> = ({ setAdd_or_Edit, editData, date }) => {
+  // 用來偵測提交
+  const [submit, setSubmit] = useState(false);
+  // 用來偵測初次渲染
+  const hasMounted = useRef(false);
 
+  const [formData, setFormData] = useState<FinancialEntry>({
+    income_or_expenditure: editData.income_or_expenditure,
+    type: editData.type,
+    cost: editData.cost,
+    remark: editData.remark,
+    id: editData.id,
+  });
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
+    }));
   };
 
   const handleSubmit = (e: FormEvent<HTMLInputElement>) => {
     e.preventDefault();
+    hasMounted.current = true;
     setSubmit((prev: boolean) => !prev);
   };
-
-  const addData = async (newdata: FinancialEntry) => {
-    await axios.post(
-      `http://localhost:3000/api/data/add/date/${date}`,
-      newdata
+  const Edit = (date: string) => {
+    const response = axios.post(
+      `http://localhost:3000/api/data/edit/date/${date}`,
+      formData
     );
-    setTrigger((prev: boolean) => !prev);
-    // console.log(response.data);
+    setAdd_or_Edit(true);
+    console.log(response);
   };
 
   useEffect(() => {
-    if (
-      formData &&
-      !isNaN(Number(formData.cost)) &&
-      formData.cost !== 0 &&
-      typeof formData.income_or_expenditure === "string" &&
-      formData.income_or_expenditure !== "" &&
-      typeof formData.type === "string" &&
-      formData.type !== "" &&
-      typeof formData.remark === "string" &&
-      formData.remark !== ""
-    ) {
-      addData(formData);
+    if (hasMounted.current) {
+      Edit(date);
     }
-    // console.log(formData);
   }, [submit]);
   return (
-    <form className="Add-form" onSubmit={handleSubmit}>
+    <form className="Edit-form" onSubmit={handleSubmit}>
       <div
         className="btn-group income_or_expenditure"
         role="group"
@@ -68,7 +67,6 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
           className="btn-check"
           autocomplete="off"
           checked={formData.income_or_expenditure === "income"}
-          onChange={handleChange}
         ></input>
         <label className="btn btn-outline-primary" for="btnradio1">
           收入
@@ -81,7 +79,6 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
           className="btn-check"
           autocomplete="off"
           checked={formData.income_or_expenditure === "expenditure"}
-          onChange={handleChange}
         ></input>
         <label className="btn btn-outline-primary" for="btnradio2">
           支出
@@ -92,6 +89,7 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
         <input
           type="text"
           name="cost"
+          value={formData.cost}
           className="row"
           onChange={handleChange}
         ></input>
@@ -99,6 +97,7 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
         <input
           type="text"
           name="type"
+          value={formData.type}
           className="row"
           onChange={handleChange}
         ></input>
@@ -106,6 +105,7 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
         <input
           type="text"
           name="remark"
+          value={formData.remark}
           className="row"
           onChange={handleChange}
         ></input>
@@ -114,12 +114,18 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
         <button type="button submit" class="btn btn-light">
           儲存
         </button>
-        <button type="button" class="btn btn-dark">
-          再記一筆
+        <button
+          type="button"
+          class="btn btn-dark"
+          onClick={() => {
+            setAdd_or_Edit(true);
+          }}
+        >
+          取消
         </button>
       </>
     </form>
   );
 };
 
-export default Add;
+export default Edit;

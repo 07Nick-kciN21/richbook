@@ -9,8 +9,8 @@ import {
   isSameMonth,
   isSameDay,
 } from "date-fns";
-import DayDetail from "./DateDetail/DayDetail";
-import Add from "./DateDetail/Add";
+
+import Detail from "./Detail";
 import "./CalendarView.css";
 
 export interface FinancialEntry {
@@ -18,11 +18,11 @@ export interface FinancialEntry {
   income_or_expenditure: string;
   cost: number;
   remark: string;
+  id: string;
 }
 const CalendarView = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [trigger, setTrigger] = useState(false);
   const renderHeader = () => {
     const dateFormat = "yyyy MMMM";
     return (
@@ -129,14 +129,7 @@ const CalendarView = () => {
       {renderHeader()}
       {renderDays()}
       {renderCells()}
-      <div className="detail row">
-        <div className="detail-item col-md-6">
-          {DayDetail(trigger, selectedDate.toLocaleDateString("en-CA"))}
-        </div>
-        <div className="col-md-6">
-          {Add(setTrigger, selectedDate.toLocaleDateString("en-CA"))}
-        </div>
-      </div>
+      {Detail(selectedDate.toLocaleDateString("en-CA"))}
     </div>
   );
 };
