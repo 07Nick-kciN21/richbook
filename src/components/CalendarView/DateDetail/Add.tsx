@@ -1,52 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import axios from "axios";
+import { FinancialEntry } from "../CalendarView";
 
-interface FinancialEntry {
-  type: string | null;
-  income_or_expenditure: string | null;
-  cost: number | null;
-  remark: string | null;
-}
+const Add = (
+  setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
+  date: string
+) => {
+  const [submit, setSubmit] = useState<boolean>(false);
+  const [formData, setFormData] = useState<FinancialEntry>({
+    income_or_expenditure: "income",
+    type: "",
+    cost: 0,
+    remark: "",
+  });
 
-const Add = (date: string) => {
-  const [income_or_expenditure, setIncome_or_Expenditure] =
-    useState<string>("");
-  const [type, setType] = useState<string>("");
-  const [cost, setCost] = useState<number>(0);
-  const [remark, setRemark] = useState<string>("");
-  const [data, setData] = useState<FinancialEntry>();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target as HTMLInputElement;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setSubmit((prev: boolean) => !prev);
+  };
+
   const addData = async (newdata: FinancialEntry) => {
-    const response = await axios.post(
+    await axios.post(
       `http://localhost:3000/api/data/add/date/${date}`,
       newdata
     );
-    console.log(response.data);
+    setTrigger((prev: boolean) => !prev);
+    // console.log(response.data);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setData({
-      type: type,
-      income_or_expenditure: income_or_expenditure,
-      cost: cost,
-      remark: remark,
-    });
-  };
   useEffect(() => {
     if (
-      data &&
-      !isNaN(Number(data.cost)) &&
-      data.cost !== "" &&
-      typeof data.income_or_expenditure === "string" &&
-      data.income_or_expenditure !== "" &&
-      typeof data.type === "string" &&
-      data.type !== "" &&
-      typeof data.remark === "string" &&
-      data.remark !== ""
+      formData &&
+      !isNaN(Number(formData.cost)) &&
+      formData.cost !== 0 &&
+      typeof formData.income_or_expenditure === "string" &&
+      formData.income_or_expenditure !== "" &&
+      typeof formData.type === "string" &&
+      formData.type !== "" &&
+      typeof formData.remark === "string" &&
+      formData.remark !== ""
     ) {
-      addData(data);
+      addData(formData);
     }
-  }, [data]);
+    // console.log(formData);
+  }, [submit]);
   return (
     <form className="Add-form" onSubmit={handleSubmit}>
       <div
@@ -61,8 +66,8 @@ const Add = (date: string) => {
           name="income_or_expenditure"
           className="btn-check"
           autocomplete="off"
-          checked={income_or_expenditure === "income"}
-          onChange={(e) => setIncome_or_Expenditure(e.target.value)}
+          checked={formData.income_or_expenditure === "income"}
+          onChange={handleChange}
         ></input>
         <label className="btn btn-outline-primary" for="btnradio1">
           收入
@@ -74,8 +79,8 @@ const Add = (date: string) => {
           name="income_or_expenditure"
           className="btn-check"
           autocomplete="off"
-          checked={income_or_expenditure === "expenditure"}
-          onChange={(e) => setIncome_or_Expenditure(e.target.value)}
+          checked={formData.income_or_expenditure === "expenditure"}
+          onChange={handleChange}
         ></input>
         <label className="btn btn-outline-primary" for="btnradio2">
           支出
@@ -86,22 +91,22 @@ const Add = (date: string) => {
         <input
           type="text"
           name="cost"
-          className="cost row"
-          onChange={(e) => setCost(e.target.value)}
+          className="row"
+          onChange={handleChange}
         ></input>
         <p className="row">類別</p>
         <input
           type="text"
           name="type"
-          className="type row"
-          onChange={(e) => setType(e.target.value)}
+          className="row"
+          onChange={handleChange}
         ></input>
         <p className="row">備註</p>
         <input
           type="text"
           name="remark"
-          className="remark row"
-          onChange={(e) => setRemark(e.target.value)}
+          className="row"
+          onChange={handleChange}
         ></input>
       </div>
       <>
