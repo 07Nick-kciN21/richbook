@@ -8,11 +8,17 @@ import React, {
 import { FinancialEntry } from "../CalendarView";
 import axios from "axios";
 interface EditProps {
-  setAdd_or_Edit: (value: boolean) => void;
+  setAdd_or_Edit: React.Dispatch<React.SetStateAction<boolean>>;
+  setTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   editData: FinancialEntry;
   date: string;
 }
-const Edit: React.FC<EditProps> = ({ setAdd_or_Edit, editData, date }) => {
+const Edit: React.FC<EditProps> = ({
+  setAdd_or_Edit,
+  setTrigger,
+  editData,
+  date,
+}) => {
   // 用來偵測提交
   const [submit, setSubmit] = useState(false);
   // 用來偵測初次渲染
@@ -38,20 +44,29 @@ const Edit: React.FC<EditProps> = ({ setAdd_or_Edit, editData, date }) => {
     hasMounted.current = true;
     setSubmit((prev: boolean) => !prev);
   };
+
   const Edit = (date: string) => {
-    const response = axios.post(
-      `http://localhost:3000/api/data/edit/date/${date}`,
-      formData
-    );
-    setAdd_or_Edit(true);
-    console.log(response);
+    axios
+      .post(`http://localhost:3000/api/data/edit/date/${date}`, formData)
+      .then((response) => {
+        if (response.status == 200) {
+          setAdd_or_Edit(true);
+          console.log(formData);
+        }
+      });
   };
 
   useEffect(() => {
     if (hasMounted.current) {
       Edit(date);
+      setTrigger((prev: boolean) => !prev);
     }
   }, [submit]);
+
+  // 當點選不同資料的編輯時，Edit form會跟著改變
+  useEffect(() => {
+    setFormData(editData);
+  }, [editData]);
   return (
     <form className="Edit-form" onSubmit={handleSubmit}>
       <div

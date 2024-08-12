@@ -4,9 +4,13 @@ import React, { useState, useEffect } from "react";
 import Add from "./Add";
 import Edit from "./Edit";
 const DayDetail = (date: string) => {
+  // 該日的所有資料
   const [dateDatas, setdateDatas] = useState<FinancialEntry[]>([]);
+  // 編輯或新增
   const [add_or_edit, setAdd_or_Edit] = useState(true);
+  // 新增資料時刷新detail的觸發器
   const [trigger, setTrigger] = useState(false);
+  // 點選編輯時被編輯的資料
   const [editData, setEditData] = useState<FinancialEntry>();
   // 取得當日資料列表
   const getDetail = async () => {
@@ -18,7 +22,7 @@ const DayDetail = (date: string) => {
       const datas = response.data.datas;
       setdateDatas(datas);
     } catch (error) {
-      console.log("Error fetching joke:");
+      console.log("Error fetching joke:", error);
     }
   };
 
@@ -26,8 +30,24 @@ const DayDetail = (date: string) => {
     setEditData(dateData);
   };
 
+  const del = async (dateData: FinancialEntry) => {
+    try {
+      await axios
+        .post(`http://localhost:3000/api/data/delete/date/${date}`, dateData)
+        .then((response) => {
+          if (response.status == 200) {
+            console.log("delete success");
+            setTrigger((prev: boolean) => !prev);
+          }
+        });
+    } catch (error) {
+      console.log("Error fetching joke:", error);
+    }
+  };
+
   useEffect(() => {
     getDetail();
+    setAdd_or_Edit(true);
   }, [date, trigger]);
 
   useEffect(() => {
@@ -55,7 +75,13 @@ const DayDetail = (date: string) => {
                 >
                   編輯
                 </button>
-                <button>刪除</button>
+                <button
+                  onClick={() => {
+                    del(dateData);
+                  }}
+                >
+                  刪除
+                </button>
               </div>
             </div>
           </div>
@@ -67,6 +93,7 @@ const DayDetail = (date: string) => {
         ) : (
           <Edit
             setAdd_or_Edit={setAdd_or_Edit}
+            setTrigger={setTrigger}
             editData={editData}
             date={date}
           />
