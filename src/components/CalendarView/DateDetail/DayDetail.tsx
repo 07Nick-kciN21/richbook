@@ -1,6 +1,6 @@
-import axios from "axios";
-import { FinancialEntry } from "../CalendarView";
+import { FinancialEntry } from "../../../interface/financialentry";
 import React, { useState, useEffect } from "react";
+import { getRecordsByDate, deleteRecord } from "../../../db/db";
 import Add from "./Add";
 import Edit from "./Edit";
 const DayDetail = (date: string) => {
@@ -14,16 +14,7 @@ const DayDetail = (date: string) => {
   const [editData, setEditData] = useState<FinancialEntry>();
   // 取得當日資料列表
   const getDetail = async () => {
-    setdateDatas([]);
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/data/read/date/${date}`
-      );
-      const datas = response.data.datas;
-      setdateDatas(datas);
-    } catch (error) {
-      console.log("Error fetching joke:", error);
-    }
+    setdateDatas(await getRecordsByDate(date));
   };
 
   const edit = (dateData: FinancialEntry) => {
@@ -31,18 +22,8 @@ const DayDetail = (date: string) => {
   };
 
   const del = async (dateData: FinancialEntry) => {
-    try {
-      await axios
-        .post(`http://localhost:3000/api/data/delete/date/${date}`, dateData)
-        .then((response) => {
-          if (response.status == 200) {
-            console.log("delete success");
-            setTrigger((prev: boolean) => !prev);
-          }
-        });
-    } catch (error) {
-      console.log("Error fetching joke:", error);
-    }
+    deleteRecord(dateData.id);
+    setTrigger((prev: boolean) => !prev);
   };
 
   useEffect(() => {
@@ -56,6 +37,7 @@ const DayDetail = (date: string) => {
       setAdd_or_Edit(false);
     }
   }, [editData]);
+
   return (
     <>
       <div className="detail-item col-md-6">
@@ -95,7 +77,6 @@ const DayDetail = (date: string) => {
             setAdd_or_Edit={setAdd_or_Edit}
             setTrigger={setTrigger}
             editData={editData}
-            date={date}
           />
         )}
       </div>

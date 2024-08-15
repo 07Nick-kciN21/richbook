@@ -30,3 +30,7 @@ npm run dev
 
 完善`Edit`功能
 完成刪除功能
+
+## 08/15
+
+資料儲存改用`indexedDB`，將`interface`拉出來放在一個目錄下

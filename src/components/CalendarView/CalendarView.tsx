@@ -13,13 +13,6 @@ import {
 import Detail from "./Detail";
 import "./CalendarView.css";
 
-export interface FinancialEntry {
-  type: string;
-  income_or_expenditure: string;
-  cost: number;
-  remark: string;
-  id: string;
-}
 const CalendarView = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());

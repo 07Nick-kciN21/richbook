@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import axios from "axios";
-import { FinancialEntry } from "../CalendarView";
+import CryptoJS from "crypto-js";
+import { FinancialEntry } from "../../../interface/financialentry";
+import { addRecord } from "../../../db/db";
 interface Addprop {
   setTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   date: string;
@@ -9,11 +10,18 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
   const [submit, setSubmit] = useState<boolean>(false);
   const [formData, setFormData] = useState<FinancialEntry>({
     income_or_expenditure: "income",
+    date: date,
     type: "",
     cost: 0,
     remark: "",
     id: "",
   });
+  function generateGUID(date: string) {
+    const timestamp = Date.now();
+    const combinedString = date + timestamp;
+    const hash = CryptoJS.SHA256(combinedString).toString(CryptoJS.enc.Hex);
+    return hash;
+  }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
@@ -29,11 +37,10 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
   };
 
   const addData = async (newdata: FinancialEntry) => {
-    await axios.post(
-      `http://localhost:3000/api/data/add/date/${date}`,
-      newdata
-    );
+    newdata.id = generateGUID(date);
+    addRecord(newdata);
     setTrigger((prev: boolean) => !prev);
+
     // console.log(response.data);
   };
 

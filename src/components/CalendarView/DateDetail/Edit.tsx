@@ -5,8 +5,8 @@ import React, {
   useRef,
   ChangeEvent,
 } from "react";
-import { FinancialEntry } from "../CalendarView";
-import axios from "axios";
+import { FinancialEntry } from "../../../interface/financialentry";
+import { editItem } from "../../../db/db";
 interface EditProps {
   setAdd_or_Edit: React.Dispatch<React.SetStateAction<boolean>>;
   setTrigger: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +17,6 @@ const Edit: React.FC<EditProps> = ({
   setAdd_or_Edit,
   setTrigger,
   editData,
-  date,
 }) => {
   // 用來偵測提交
   const [submit, setSubmit] = useState(false);
@@ -26,6 +25,7 @@ const Edit: React.FC<EditProps> = ({
 
   const [formData, setFormData] = useState<FinancialEntry>({
     income_or_expenditure: editData.income_or_expenditure,
+    date: editData.date,
     type: editData.type,
     cost: editData.cost,
     remark: editData.remark,
@@ -45,20 +45,14 @@ const Edit: React.FC<EditProps> = ({
     setSubmit((prev: boolean) => !prev);
   };
 
-  const Edit = (date: string) => {
-    axios
-      .post(`http://localhost:3000/api/data/edit/date/${date}`, formData)
-      .then((response) => {
-        if (response.status == 200) {
-          setAdd_or_Edit(true);
-          console.log(formData);
-        }
-      });
+  const Edit = () => {
+    editItem(formData);
+    setAdd_or_Edit(true);
   };
 
   useEffect(() => {
     if (hasMounted.current) {
-      Edit(date);
+      Edit();
       setTrigger((prev: boolean) => !prev);
     }
   }, [submit]);
