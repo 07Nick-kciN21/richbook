@@ -17,12 +17,12 @@ const DayDetail = (date: string) => {
     setdateDatas(await getRecordsByDate(date));
   };
 
-  const edit = (dateData: FinancialEntry) => {
+  const edit = async (dateData: FinancialEntry) => {
     setEditData(dateData);
   };
 
   const del = async (dateData: FinancialEntry) => {
-    deleteRecord(dateData.id);
+    await deleteRecord(dateData.id);
     setTrigger((prev: boolean) => !prev);
   };
 

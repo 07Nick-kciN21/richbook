@@ -1,11 +1,9 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import CryptoJS from "crypto-js";
 import { FinancialEntry } from "../../../interface/financialentry";
+import { Addprop } from "../../../interface/DateDetail";
 import { addRecord } from "../../../db/db";
-interface Addprop {
-  setTrigger: React.Dispatch<React.SetStateAction<boolean>>;
-  date: string;
-}
+
 const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
   const [submit, setSubmit] = useState<boolean>(false);
   const [formData, setFormData] = useState<FinancialEntry>({
@@ -23,7 +21,7 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
     return hash;
   }
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
     setFormData({
       ...formData,
@@ -31,14 +29,15 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
     });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     setSubmit((prev: boolean) => !prev);
   };
 
   const addData = async (newdata: FinancialEntry) => {
     newdata.id = generateGUID(date);
-    addRecord(newdata);
+    newdata.date = date;
+    await addRecord(newdata);
     setTrigger((prev: boolean) => !prev);
 
     // console.log(response.data);

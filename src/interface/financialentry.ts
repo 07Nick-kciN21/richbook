@@ -1,4 +1,4 @@
-import { openDB, DBSchema } from "idb";
+import { DBSchema } from "idb";
 
 export interface FinancialEntry {
   id: string;
@@ -15,6 +15,14 @@ export interface typeEntry {
   pic: string;
 }
 
+export interface totalEntry{
+  name: string;
+  income: number;
+  expenditure: number;
+}
+
+
+
 export interface financeDB extends DBSchema {
   recordClusters: {
     key: string;
@@ -24,4 +32,8 @@ export interface financeDB extends DBSchema {
     key: number;
     value: typeEntry;
   };
+  totalCluster: {
+    key:string;
+    value: totalEntry;
+  }
 }

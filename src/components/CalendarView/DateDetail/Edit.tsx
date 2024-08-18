@@ -7,12 +7,7 @@ import React, {
 } from "react";
 import { FinancialEntry } from "../../../interface/financialentry";
 import { editItem } from "../../../db/db";
-interface EditProps {
-  setAdd_or_Edit: React.Dispatch<React.SetStateAction<boolean>>;
-  setTrigger: React.Dispatch<React.SetStateAction<boolean>>;
-  editData: FinancialEntry;
-  date: string;
-}
+import { EditProps } from "../../../interface/DateDetail";
 const Edit: React.FC<EditProps> = ({
   setAdd_or_Edit,
   setTrigger,
@@ -31,7 +26,7 @@ const Edit: React.FC<EditProps> = ({
     remark: editData.remark,
     id: editData.id,
   });
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
     setFormData((prevData) => ({
       ...prevData,
@@ -39,14 +34,14 @@ const Edit: React.FC<EditProps> = ({
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     hasMounted.current = true;
     setSubmit((prev: boolean) => !prev);
   };
 
-  const Edit = () => {
-    editItem(formData);
+  const Edit = async () => {
+    await editItem(formData);
     setAdd_or_Edit(true);
   };
 
