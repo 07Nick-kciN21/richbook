@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Bar,
   XAxis,
@@ -9,7 +9,7 @@ import {
   ComposedChart,
 } from "recharts";
 
-import { getTotalbymonth, getTotalPercentbymonth } from "../../../db/db";
+import { getTotalbymonth } from "../../../db/db";
 import { totalEntry } from "../../../interface/financialentry";
 
 const ChartAnalysis = (month: string) => {
@@ -24,25 +24,26 @@ const ChartAnalysis = (month: string) => {
   }, [month]);
 
   return (
-    <ComposedChart
-      width={500}
-      height={300}
-      data={data}
-      margin={{
-        top: 20,
-        right: 20,
-        bottom: 20,
-        left: 20,
-      }}
-    >
-      <CartesianGrid stroke="#f5f5f5" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="income" barSize={5} fill="red" />
-      <Bar dataKey="expenditure" barSize={5} fill="green" />
-    </ComposedChart>
+    <div className="row justify-content-center">
+      <ComposedChart
+        width={450}
+        height={300}
+        data={data}
+        margin={{
+          top: 20,
+          right: 20,
+          bottom: 20,
+          left: 20,
+        }}
+      >
+        <CartesianGrid stroke="#f5f5f5" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="expenditure" barSize={5} fill="red" />
+      </ComposedChart>
+    </div>
   );
 };
 

@@ -2,7 +2,6 @@
 import { addDays, endOfMonth, startOfMonth } from "date-fns";
 import {
   FinancialEntry,
-  typeEntry,
   totalEntry,
   financeDB,
 } from "../interface/financialentry";
@@ -61,8 +60,7 @@ export const deleteRecord = async (id: string) => {
   const record = await db.get("recordClusters", id);
 
   if (!record) return;
-  const month = record.date.substring(0, 7);
-  const total = await db.get("totalCluster", month);
+  const total = await db.get("totalCluster", record.date);
 
   if (total) {
     if (record.income_or_expenditure === "income") {
@@ -184,22 +182,22 @@ export const getIncomeAndExpensesbymonth = async (month: string) => {
   return IncomeAndExpense;
 };
 
-export const getTotalPercentbymonth = async (month: string) => {
+export const getTotalPercentbymonth = async (month: string, I_E: string) => {
   // [{name:"飲食", value:20}]
   const db = await dbPromise;
   const allRecords = await db.getAll("recordClusters");
   const filteredRecords = allRecords.filter((record) =>
     record.date.startsWith(month)
   );
+  const filteredRecordsbyI_E = filteredRecords.filter(
+    (record) => record.income_or_expenditure === I_E
+  );
   // 初始化一个对象来保存每个 type 的总和
   const totalCostByType: { [key: string]: number } = {};
   let totalCost = 0;
   // 遍历所有记录，按 type 累加 cost
-  filteredRecords.forEach((record: FinancialEntry) => {
-    const { income_or_expenditure, type, cost } = record;
-    if (income_or_expenditure === "income") {
-      return;
-    }
+  filteredRecordsbyI_E.forEach((record: FinancialEntry) => {
+    const { type, cost } = record;
     if (!totalCostByType[type]) {
       totalCostByType[type] = 0;
     }
@@ -213,7 +211,8 @@ export const getTotalPercentbymonth = async (month: string) => {
     name,
     value,
     totalCost: totalCost,
-    percentage: ((value / totalCost) * 100).toFixed(2),
+    percent: ((value / totalCost) * 100).toFixed(2),
   }));
+  result.sort((a, b) => b.value - a.value);
   return result;
 };

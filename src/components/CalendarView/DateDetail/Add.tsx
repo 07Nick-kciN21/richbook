@@ -3,7 +3,6 @@ import CryptoJS from "crypto-js";
 import { FinancialEntry } from "../../../interface/financialentry";
 import { Addprop } from "../../../interface/DateDetail";
 import { addRecord } from "../../../db/db";
-
 const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
   const [submit, setSubmit] = useState<boolean>(false);
   const [formData, setFormData] = useState<FinancialEntry>({
@@ -14,6 +13,7 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
     remark: "",
     id: "",
   });
+
   function generateGUID(date: string) {
     const timestamp = Date.now();
     const combinedString = date + timestamp;

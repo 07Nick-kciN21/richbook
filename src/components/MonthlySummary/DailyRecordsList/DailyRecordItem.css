@@ -1,5 +1,6 @@
+
 .record-list{
-    max-height: 310px; /* 限制高度，2個div的高度總和 (2 x 80px) */
+    max-height: 40vh; /*  限制高度，2個div的高度總和 (2 x 80px) */
     overflow-y: scroll;
     overflow-x: hidden;
   }

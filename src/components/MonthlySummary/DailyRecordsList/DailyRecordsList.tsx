@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./DailyRecordItem.css";
 import DailyRecordItem from "./DailyRecordItem";
 import { DailyRecordsListModel } from "../../../interface/View";
@@ -15,11 +15,10 @@ const DailyRecordsList = (currentMonth: string) => {
     getRecords(currentMonth);
   }, [currentMonth]);
   return (
-    <div>
-      <h2>Daily Records for {currentMonth}</h2>
-      <ul className="record-list">
-        {recordsList.map((record) => DailyRecordItem(record))}
-      </ul>
+    <div className="row justify-content-center w-100">
+      <div className="col-8 record-list">
+        <ul>{recordsList.map((record) => DailyRecordItem(record))}</ul>
+      </div>
     </div>
   );
 };
