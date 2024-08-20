@@ -2,7 +2,7 @@
 
 ## 專案結構
 
-!["app 結構"](/public/app結構.png)
+!["app 結構"](/public/記帳app.png)
 
 ## 安裝
 
