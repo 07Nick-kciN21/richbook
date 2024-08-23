@@ -50,12 +50,14 @@ const DateDetail = (date: string) => {
     }
   }, [editData]);
 
-  if (detailState.dateDatas.length === 0 || detailState.pics.length === 0) {
-    return <p>No item</p>;
-  }
   return (
     <>
       <div className="detail-item col-md-6">
+        {detailState.dateDatas.length === 0 || detailState.pics.length === 0 ? (
+          <div>
+            <p>No item</p>
+          </div>
+        ) : null}
         {detailState.dateDatas.map((dateData, index) => (
           <div key={index} className={dateData.income_or_expenditure}>
             <div className="row border">
