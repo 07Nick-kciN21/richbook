@@ -1,21 +1,29 @@
 import { FinancialEntry } from "../../../interface/financialentry";
+import { DateDetailModel } from "../../../interface/DateDetail";
 import React, { useState, useEffect } from "react";
-import { getRecordsByDate, deleteRecord } from "../../../db/db";
+import { getRecordsByDate, deleteRecord, getType } from "../../../db/db";
 import Add from "./Add";
 import Edit from "./Edit";
-const DayDetail = (date: string) => {
+
+interface DateDetailState {
+  dateDatas: FinancialEntry[];
+  pics: string[];
+}
+
+const DateDetail = (date: string) => {
   // 該日的所有資料
-  const [dateDatas, setdateDatas] = useState<FinancialEntry[]>([]);
+  // const [dateDatas, setdateDatas] = useState<FinancialEntry[]>([]);
+  // const [pic, setPic] = useState<String[]>([]);
+  const [detailState, setDetailState] = useState<DateDetailState>({
+    dateDatas: [],
+    pics: [],
+  });
   // 編輯或新增
   const [add_or_edit, setAdd_or_Edit] = useState(true);
   // 新增資料時刷新detail的觸發器
   const [trigger, setTrigger] = useState(false);
   // 點選編輯時被編輯的資料
   const [editData, setEditData] = useState<FinancialEntry>();
-  // 取得當日資料列表
-  const getDetail = async () => {
-    setdateDatas(await getRecordsByDate(date));
-  };
 
   const edit = async (dateData: FinancialEntry) => {
     setEditData(dateData);
@@ -27,24 +35,43 @@ const DayDetail = (date: string) => {
   };
 
   useEffect(() => {
+    const getDetail = async () => {
+      const { data, pics } = await getRecordsByDate(date);
+
+      setDetailState({ dateDatas: data, pics });
+    };
     getDetail();
     setAdd_or_Edit(true);
   }, [date, trigger]);
 
   useEffect(() => {
     if (editData != undefined) {
-      console.log(editData);
       setAdd_or_Edit(false);
     }
   }, [editData]);
 
+  if (detailState.dateDatas.length === 0 || detailState.pics.length === 0) {
+    return <p>No item</p>;
+  }
   return (
     <>
       <div className="detail-item col-md-6">
-        {dateDatas.length === 0 ? " No item" : null}
-        {dateDatas.map((dateData, index) => (
+        {detailState.dateDatas.map((dateData, index) => (
           <div key={index} className={dateData.income_or_expenditure}>
             <div className="row border">
+              <div>
+                {detailState.pics[index] ? (
+                  <img
+                    src={detailState.pics[index]}
+                    alt={detailState.pics[index]}
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      marginRight: "10px",
+                    }}
+                  />
+                ) : null}
+              </div>
               <div className="item-row col-sm-8">
                 <p>項目: {dateData.type}</p>
                 <p>金額: {dateData.cost}</p>
@@ -84,4 +111,4 @@ const DayDetail = (date: string) => {
   );
 };
 
-export default DayDetail;
+export default DateDetail;

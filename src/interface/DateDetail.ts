@@ -10,3 +10,8 @@ export interface EditProps {
     editData: FinancialEntry;
     date: string;
 }
+
+export interface DateDetailModel{
+    data: FinancialEntry;
+    pic: string;
+}

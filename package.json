@@ -18,6 +18,7 @@
     "idb": "^8.0.0",
     "preact": "^10.22.1",
     "react-router-dom": "^6.26.0",
+    "react-select": "^5.8.0",
     "recharts": "^2.12.7",
     "typescript-require": "^0.3.0"
   },
@@ -28,5 +29,4 @@
     "typescript": "^5.5.4",
     "vite": "^5.3.4"
   }
-  
 }

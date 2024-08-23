@@ -3,21 +3,22 @@ import { addDays, endOfMonth, startOfMonth } from "date-fns";
 import {
   FinancialEntry,
   totalEntry,
+  typeEntry,
   financeDB,
 } from "../interface/financialentry";
 
 import { openDB } from "idb";
 
-const dbPromise = openDB<financeDB>("my-database", 3, {
+const dbPromise = openDB<financeDB>("my-database", 5, {
   upgrade(db) {
     if (!db.objectStoreNames.contains("recordClusters")) {
       db.createObjectStore("recordClusters", {
         keyPath: "id",
       });
     }
-    if (!db.objectStoreNames.contains("typeClusters")) {
-      db.createObjectStore("typeClusters", {
-        keyPath: "id",
+    if (!db.objectStoreNames.contains("typeClusters2")) {
+      db.createObjectStore("typeClusters2", {
+        keyPath: "name",
       });
     }
     if (!db.objectStoreNames.contains("totalCluster")) {
@@ -97,14 +98,37 @@ export const editItem = async (item: FinancialEntry) => {
 // FinancialEntry[]
 export const getRecords = async () => {
   const db = await dbPromise;
-  return db.getAll("recordClusters");
+  const allRecords = await db.getAll("recordClusters");
+  let pic: string[] = allRecords.map((element) => element.type);
+
+  // 创建一个返回对象
+  let data_pic = {
+    data: allRecords,
+    pic: pic,
+  };
+
+  return data_pic;
 };
 
 // FinancialEntry[]
 export const getRecordsByDate = async (date: string) => {
   const db = await dbPromise;
   const allRecords = await db.getAll("recordClusters");
-  return allRecords.filter((record) => record.date === date);
+  const allRecordsByDate = allRecords.filter((record) => record.date === date);
+  // 使用 Promise.all 确保所有图片异步加载完成
+  const pics: string[] = await Promise.all(
+    allRecordsByDate.map(async (entry) => {
+      const p = await getType(entry.type);
+      return p;
+    })
+  );
+  // 创建一个返回对象
+  let data_pic = {
+    data: allRecordsByDate,
+    pics: pics,
+  };
+
+  return data_pic;
 };
 
 // RecordsByMonth
@@ -114,10 +138,11 @@ export const getRecordsByMonth = async (month: string) => {
   let Records = [];
   while (day <= lastday) {
     const date = day.toLocaleDateString("en-CA");
-    const data = await getRecordsByDate(date);
+    const { data, pics } = await getRecordsByDate(date);
     Records.push({
       date: date,
       data: data,
+      pic: pics,
     });
     day = addDays(day, 1);
   }
@@ -215,4 +240,22 @@ export const getTotalPercentbymonth = async (month: string, I_E: string) => {
   }));
   result.sort((a, b) => b.value - a.value);
   return result;
+};
+
+export const addType = async (typeEntry: typeEntry) => {
+  const db = await dbPromise;
+  await db.add("typeClusters2", typeEntry);
+};
+
+export const getType = async (name: string) => {
+  const db = await dbPromise;
+  const result = await db.get("typeClusters2", name);
+
+  return result?.pic;
+};
+
+// 获取所有 `typeEntry`
+export const getTypeEntries = async () => {
+  const db = await dbPromise;
+  return db.getAll("typeClusters2");
 };
