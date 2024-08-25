@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./ExpenseRanking.css";
 import ExpenseRankingItem from "./ExpenseRankingItem";
-import { getTotalPercentbymonth } from "../../../db/db";
+import { getTotalPercentbymonth } from "../../../db/totaldb";
 import { ExpenseRankingModule } from "../../../interface/MonthlySummary";
 const ExpenseRanking = (month: string, I_E: string) => {
   const [data, setData] = useState<ExpenseRankingModule[]>([]);

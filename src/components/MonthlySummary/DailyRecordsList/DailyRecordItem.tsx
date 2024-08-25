@@ -1,4 +1,5 @@
 import { DailyRecordItemModel } from "../../../interface/View";
+
 const DailyRecordItem = (record: DailyRecordItemModel) => {
   if (record.data.length === 0) {
     return null;

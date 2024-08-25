@@ -8,7 +8,7 @@ import {
   PieLabelRenderProps,
 } from "recharts";
 import { PieChartformat } from "../../../interface/Chart";
-import { getTotalPercentbymonth } from "../../../db/db";
+import { getTotalPercentbymonth } from "../../../db/totaldb";
 
 const PieAnalysis = (month: string, I_E: string) => {
   const [data, setData] = useState<PieChartformat[]>([]);

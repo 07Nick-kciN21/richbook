@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getTypeEntries } from "../../db/db";
+import { getTypeEntries } from "../../db/typedb";
 import { typeEntry } from "../../interface/financialentry";
 import Select from "react-select";
 const TypeSelect = () => {

@@ -11,7 +11,13 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": false,
+    "noEmit": false,  // 确保 noEmit 选项为 false 或移除此行
     "resolveJsonModule": true,
-    "jsx": "react"
+    "jsx": "react",
+    "baseUrl": "./src", // 设置基础路径为项目根目录
+    "paths": {
+      "@db/*": ["db/*"], // 将 "~" 映射到 "src" 目录，假设你的代码位于 src 文件夹中
+      "@interface/*": ["interface/*"]
+    }
   }
 }

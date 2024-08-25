@@ -11,7 +11,7 @@ export interface EditProps {
     date: string;
 }
 
-export interface DateDetailModel{
-    data: FinancialEntry;
-    pic: string;
-}
+export interface DateDetailState {
+    dateDatas: FinancialEntry[];
+    pics: string[];
+  }

@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "jest --coverage"
   },
   "dependencies": {
     "@types/react": "^18.3.3",
@@ -25,7 +26,10 @@
   "devDependencies": {
     "@preact/preset-vite": "^2.8.3",
     "@types/crypto-js": "^4.2.2",
+    "@types/jest": "^29.5.12",
     "@types/node": "^22.1.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
     "typescript": "^5.5.4",
     "vite": "^5.3.4"
   }

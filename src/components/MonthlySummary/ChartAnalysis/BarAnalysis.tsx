@@ -9,7 +9,7 @@ import {
   ComposedChart,
 } from "recharts";
 
-import { getTotalbymonth } from "../../../db/db";
+import { getTotalbymonth } from "../../../db/totaldb";
 import { totalEntry } from "../../../interface/financialentry";
 
 const ChartAnalysis = (month: string) => {

@@ -5,12 +5,13 @@ import React, {
   useRef,
   ChangeEvent,
 } from "react";
-import { FinancialEntry } from "../../../interface/financialentry";
-import { editItem } from "../../../db/db";
-import { EditProps } from "../../../interface/DateDetail";
-import { getTypeEntries } from "../../../db/db";
-import { typeEntry } from "../../../interface/financialentry";
+import { FinancialEntry } from "@interface/financialentry";
+import { editRecord } from "@db/recorddb";
+import { EditProps } from "@interface/DateDetail";
+import { getTypeEntries } from "@db/typedb";
+import { typeEntry } from "@interface/financialentry";
 import Select from "react-select";
+
 const Edit: React.FC<EditProps> = ({
   setAdd_or_Edit,
   setTrigger,
@@ -56,7 +57,7 @@ const Edit: React.FC<EditProps> = ({
   };
 
   const Edit = async () => {
-    await editItem(formData);
+    await editRecord(formData);
     setAdd_or_Edit(true);
   };
 

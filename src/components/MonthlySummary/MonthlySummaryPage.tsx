@@ -6,6 +6,7 @@ import MonthlySummarySection from "./MonthlySummarySection/MonthlySummarySection
 import ExpenseRanking from "./ExpenseRanking/ExpenseRanking";
 import SwitchMonth from "./SwitchMonth/SwitchMonth";
 import "./MonthlySummaryPage.css";
+
 const MonthlySummaryPage = () => {
   const [currentMonth, setCurrentMonth] = useState(() => {
     const now = new Date();

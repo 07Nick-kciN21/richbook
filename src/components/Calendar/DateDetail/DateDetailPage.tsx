@@ -1,14 +1,9 @@
-import { FinancialEntry } from "../../../interface/financialentry";
-import { DateDetailModel } from "../../../interface/DateDetail";
+import { FinancialEntry } from "@interface/financialentry";
+import { DateDetailState } from "@interface/DateDetail";
 import React, { useState, useEffect } from "react";
-import { getRecordsByDate, deleteRecord, getType } from "../../../db/db";
+import { getRecordsByDate, deleteRecord } from "@db/recorddb";
 import Add from "./Add";
 import Edit from "./Edit";
-
-interface DateDetailState {
-  dateDatas: FinancialEntry[];
-  pics: string[];
-}
 
 const DateDetail = (date: string) => {
   // 該日的所有資料

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MonthlySummary } from "../../../interface/MonthlySummary";
-import { getIncomeAndExpensesbymonth } from "../../../db/db";
+import { getIncomeAndExpensesbymonth } from "../../../db/totaldb";
 
 const MonthlySummarySection = (month: string) => {
   const [total, setTotal] = useState<MonthlySummary>({

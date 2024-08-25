@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./DailyRecordItem.css";
 import DailyRecordItem from "./DailyRecordItem";
 import { DailyRecordsListModel } from "../../../interface/View";
-import { getRecordsByMonth } from "../../../db/db";
+import { getRecordsByMonth } from "../../../db/recorddb";
 
 const DailyRecordsList = (currentMonth: string) => {
   const [recordsList, setRecordsList] = useState<DailyRecordsListModel[]>([]);

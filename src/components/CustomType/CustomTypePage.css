@@ -1,0 +1,8 @@
+.typeList{
+    max-height: 600px; 
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 15px; /* 预留滚动条的位置 */
+    box-sizing: content-box; /* 确保 padding 不影响内容宽度 */
+
+}
