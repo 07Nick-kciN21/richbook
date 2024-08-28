@@ -1,7 +1,7 @@
-import { FinancialEntry } from "@interface/financialentry";
-import { DateDetailState } from "@interface/DateDetail";
+import { FinancialEntry } from "../../../interface/financialentry";
+import { DateDetailState } from "../../../interface/DateDetail";
 import React, { useState, useEffect } from "react";
-import { getRecordsByDate, deleteRecord } from "@db/recorddb";
+import { getRecordsByDate, deleteRecord } from "../../../db/recorddb";
 import Add from "./Add";
 import Edit from "./Edit";
 

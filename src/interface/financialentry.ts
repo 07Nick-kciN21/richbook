@@ -10,6 +10,7 @@ export interface FinancialEntry {
 }
 
 export interface typeEntry {
+  id:number;
   name: string;
   pic: string;
 }
@@ -27,8 +28,8 @@ export interface financeDB extends DBSchema {
     key: string;
     value: FinancialEntry;
   };
-  typeClusters2: {
-    key: string;
+  typeClusters: {
+    key: number;
     value: typeEntry;
   };
   totalCluster: {

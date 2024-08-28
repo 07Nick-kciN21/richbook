@@ -1,10 +1,10 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import CryptoJS from "crypto-js";
-import { FinancialEntry } from "@interface/financialentry";
-import { typeEntry } from "@interface/financialentry";
-import { Addprop } from "@interface/DateDetail";
-import { addRecord } from "@db/recorddb";
-import { getTypeEntries } from "@db/typedb";
+import { FinancialEntry } from "../../../interface/financialentry";
+import { typeEntry } from "../../../interface/financialentry";
+import { Addprop } from "../../../interface/DateDetail";
+import { addRecord } from "../../../db/recorddb";
+import { getTypeEntries } from "../../../db/typedb";
 
 import Select from "react-select";
 

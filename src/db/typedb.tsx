@@ -1,24 +1,36 @@
 import { dbPromise } from "./db";
 import { typeEntry } from "../interface/financialentry";
 
-export const addType = async (typeEntry: typeEntry) => {
+export const addType = async (item: typeEntry) => {
   const db = await dbPromise;
-  await db.add("typeClusters2", typeEntry);
+  await db.add("typeClusters", item);
 };
 
-export const getType = async (name: string) => {
+export const getType = async (id: number) => {
   const db = await dbPromise;
-  const result = await db.get("typeClusters2", name);
+  const result = await db.get("typeClusters", id);
+  return result;
+};
+
+export const getTypePicbyname = async (name: string) => {
+  const db = await dbPromise;
+  const alltype = await db.getAll("typeClusters");
+  const result = alltype.find((x) => x.name === name);
   return result?.pic;
 };
 
 // 获取所有 `typeEntry`
 export const getTypeEntries = async () => {
   const db = await dbPromise;
-  return db.getAll("typeClusters2");
+  return db.getAll("typeClusters");
 };
 
-export const deleteType = async (name: string) => {
+export const deleteType = async (id: number) => {
   const db = await dbPromise;
-  db.delete("typeClusters2", name);
+  db.delete("typeClusters", id);
+};
+
+export const editTpye = async (item: typeEntry) => {
+  const db = await dbPromise;
+  db.put("typeClusters", item);
 };

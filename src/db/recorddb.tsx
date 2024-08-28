@@ -1,5 +1,5 @@
 import { dbPromise } from "./db";
-import { getType } from "./typedb";
+import { getTypePicbyname } from "./typedb";
 import { addDays, endOfMonth, startOfMonth } from "date-fns";
 import { FinancialEntry, totalEntry } from "../interface/financialentry";
 
@@ -92,7 +92,7 @@ export const getRecordsByDate = async (date: string) => {
   // 使用 Promise.all 确保所有图片异步加载完成
   const pics: string[] = await Promise.all(
     allRecordsByDate.map(async (entry) => {
-      const p = await getType(entry.type);
+      const p = await getTypePicbyname(entry.type);
       return p;
     })
   );
