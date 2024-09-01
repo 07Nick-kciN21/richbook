@@ -88,6 +88,5 @@ export const getTotalPercentbymonth = async (month: string, I_E: string) => {
     percent: ((value / totalCost) * 100).toFixed(2),
   }));
   result.sort((a, b) => b.value - a.value);
-  console.log(result);
   return result;
 };

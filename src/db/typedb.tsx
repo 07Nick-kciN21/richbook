@@ -13,7 +13,7 @@ export const getType = async (id: number) => {
 };
 
 export const getTypeNamebyId = async (
-  id: number
+  id: string
 ): Promise<string | undefined> => {
   const db = await dbPromise;
 

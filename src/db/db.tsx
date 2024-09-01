@@ -12,7 +12,7 @@ export const dbPromise = openDB<financeDB>("my-database", 5, {
     }
     if (!db.objectStoreNames.contains("typeClusters")) {
       db.createObjectStore("typeClusters", {
-        keyPath: "name",
+        keyPath: "id",
       });
     }
     if (!db.objectStoreNames.contains("totalCluster")) {
