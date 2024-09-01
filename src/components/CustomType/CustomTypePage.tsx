@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getTypeEntries, getType } from "../../db/typedb";
+import { changeAllRecordType2Id } from "../../db/test";
 import "./CustomTypePage.css";
 import { typeEntry } from "../../interface/financialentry";
 import Add from "./Add";
@@ -57,7 +58,6 @@ const CustomTypePage = () => {
               key={showForm} // 当 showForm 改变时，重新渲染 Add 组件
               setSubTrigger={setSubTrigger}
               setShowForm={setShowForm}
-              typeId={types ? types.length : 0}
             />
           )}
         </div>

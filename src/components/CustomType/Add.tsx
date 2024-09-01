@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { addType } from "../../db/typedb";
-import "./CustomTypePage.css";
 import { typeEntry } from "../../interface/CustomType";
+import CryptoJS from "crypto-js";
+import "./CustomTypePage.css";
 
 interface AddProps {
   setSubTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
-  typeId: number;
 }
 
-const Add: React.FC<AddProps> = ({ setSubTrigger, setShowForm, typeId }) => {
+const Add: React.FC<AddProps> = ({ setSubTrigger, setShowForm }) => {
   const [newType, setNewType] = useState<typeEntry>({
     name: "",
     pic: null,
   });
-  const [preview, setPreview] = useState<string>();
+
+  function generateGUID(name: string) {
+    const timestamp = Date.now();
+    const combinedString = name + timestamp;
+    const hash = CryptoJS.SHA256(combinedString).toString(CryptoJS.enc.Hex);
+    return hash;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedType = {
       ...newType,
-      id: typeId,
+      id: generateGUID(newType.name),
     };
     setNewType(updatedType);
     if (!newType.pic) {
@@ -47,7 +54,6 @@ const Add: React.FC<AddProps> = ({ setSubTrigger, setShowForm, typeId }) => {
               ...newType,
               [name]: reader.result.toString(),
             });
-            setPreview(reader.result.toString());
           }
         };
         reader.readAsDataURL(files[0]);
@@ -93,8 +99,8 @@ const Add: React.FC<AddProps> = ({ setSubTrigger, setShowForm, typeId }) => {
             />
           )}
         </div>
-        <button type="button submit" className="btn btn-primary">
-          新增類別
+        <button type="button submit" className="btn btn-success">
+          新增
         </button>
         <button
           type="button"

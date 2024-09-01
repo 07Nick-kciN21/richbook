@@ -32,7 +32,6 @@ const DateDetail = (date: string) => {
   useEffect(() => {
     const getDetail = async () => {
       const { data, pics } = await getRecordsByDate(date);
-
       setDetailState({ dateDatas: data, pics });
     };
     getDetail();
@@ -70,7 +69,7 @@ const DateDetail = (date: string) => {
                 ) : null}
               </div>
               <div className="item-row col-sm-8">
-                <p>項目: {dateData.type}</p>
+                <p>項目: {dateData.remark}</p>
                 <p>金額: {dateData.cost}</p>
               </div>
               <div className="edit_delete col-sm-4 row-cols-1">

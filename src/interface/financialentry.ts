@@ -10,7 +10,7 @@ export interface FinancialEntry {
 }
 
 export interface typeEntry {
-  id:number;
+  id:string;
   name: string;
   pic: string;
 }

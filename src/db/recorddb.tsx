@@ -85,18 +85,50 @@ export const getRecords = async () => {
 };
 
 // FinancialEntry[]
+// export const getRecordsByDate = async (date: string) => {
+//   const db = await dbPromise;
+//   const allRecords = await db.getAll("recordClusters");
+//   const allRecordsByDate = allRecords.filter((record) => record.date === date);
+//   // 使用 Promise.all 确保所有图片异步加载完成
+//   const pics: string[] = await Promise.all(
+//     allRecordsByDate.map(async (entry) => {
+//       const p = await getTypePicbyname(entry.type);
+//       return p;
+//     })
+//   );
+//   // 创建一个返回对象
+//   let data_pic = {
+//     data: allRecordsByDate,
+//     pics: pics,
+//   };
+
+//   return data_pic;
+// };
 export const getRecordsByDate = async (date: string) => {
   const db = await dbPromise;
   const allRecords = await db.getAll("recordClusters");
   const allRecordsByDate = allRecords.filter((record) => record.date === date);
-  // 使用 Promise.all 确保所有图片异步加载完成
+
+  // Retrieve typeEntries to get the picture
+  const allTypes = await db.getAll("typeClusters");
+
+  const typeMap = new Map<string, string>(
+    allTypes.map((type) => [type.id, type.name])
+  );
+
+  // Convert type ID to type name for each record
+  const recordsWithTypeName = allRecordsByDate.map((record) => ({
+    ...record,
+    type: typeMap.get(record.type) || "Unknown", // Use "Unknown" if no match found
+  }));
+
+  // Fetch type pics based on the type names
   const pics: string[] = await Promise.all(
-    allRecordsByDate.map(async (entry) => {
+    recordsWithTypeName.map(async (entry) => {
       const p = await getTypePicbyname(entry.type);
       return p;
     })
   );
-  // 创建一个返回对象
   let data_pic = {
     data: allRecordsByDate,
     pics: pics,

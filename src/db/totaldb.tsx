@@ -1,6 +1,7 @@
 import { dbPromise } from "./db";
 import { addDays, endOfMonth, startOfMonth } from "date-fns";
 import { FinancialEntry } from "../interface/financialentry";
+import { getTypeNamebyId, getTypePicbyname } from "./typedb";
 
 export const getTotalbydate = async (date: string) => {
   const db = await dbPromise;
@@ -60,15 +61,24 @@ export const getTotalPercentbymonth = async (month: string, I_E: string) => {
   const totalCostByType: { [key: string]: number } = {};
   let totalCost = 0;
   // 遍历所有记录，按 type 累加 cost
-  filteredRecordsbyI_E.forEach((record: FinancialEntry) => {
+  for (const record of filteredRecordsbyI_E) {
     const { type, cost } = record;
-    if (!totalCostByType[type]) {
-      totalCostByType[type] = 0;
+
+    // Convert type ID to type name asynchronously
+    const typename = await getTypeNamebyId(type);
+
+    if (typename) {
+      if (!totalCostByType[typename]) {
+        totalCostByType[typename] = 0;
+      }
+
+      totalCostByType[typename] += Number(cost);
+    } else {
+      console.warn(`Type ID ${type} not found.`);
     }
 
-    totalCostByType[type] += Number(cost);
     totalCost += Number(cost);
-  });
+  }
 
   // 将结果转换为所需格式
   const result = Object.entries(totalCostByType).map(([name, value]) => ({
@@ -78,5 +88,6 @@ export const getTotalPercentbymonth = async (month: string, I_E: string) => {
     percent: ((value / totalCost) * 100).toFixed(2),
   }));
   result.sort((a, b) => b.value - a.value);
+  console.log(result);
   return result;
 };

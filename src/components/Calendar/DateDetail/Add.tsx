@@ -45,12 +45,9 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
     newdata.date = date;
     await addRecord(newdata);
     setTrigger((prev: boolean) => !prev);
-
-    // console.log(response.data);
   };
 
   const handleSelectChange = async (selectedOption) => {
-    console.log(selectedOption.value);
     setFormData({
       ...formData,
       ["type"]: selectedOption.value,
@@ -80,7 +77,6 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
     ) {
       addData(formData);
     }
-    // console.log(formData);
   }, [submit]);
   return (
     <form className="Add-form" onSubmit={handleSubmit}>
@@ -123,7 +119,7 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
           <div className="w-100">
             <Select
               options={typeEntries.map((entry) => ({
-                value: entry.name,
+                value: entry.id,
                 label: (
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <img
@@ -176,11 +172,8 @@ const Add: React.FC<Addprop> = ({ setTrigger, date }) => {
       <div className="row align-items-center">
         <div className="col-md-6"></div>
         <div className="col-md-6">
-          <button type="button submit" class="btn btn-light">
-            儲存
-          </button>
-          <button type="button" class="btn btn-dark">
-            再記一筆
+          <button type="button submit" class="btn btn-success">
+            新增
           </button>
         </div>
       </div>

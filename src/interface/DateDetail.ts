@@ -12,6 +12,13 @@ export interface EditProps {
 }
 
 export interface DateDetailState {
-    dateDatas: FinancialEntry[];
+    dateDatas: {
+        id: string;
+        date: string;
+        type: string;
+        income_or_expenditure: string;
+        cost: number;
+        remark: string;
+    }[];
     pics: string[];
   }

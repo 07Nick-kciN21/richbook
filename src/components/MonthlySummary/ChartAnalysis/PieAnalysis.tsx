@@ -55,7 +55,7 @@ const PieAnalysis = (month: string, I_E: string) => {
       <p>No data can display</p>
     </div>
   ) : (
-    <PieChart width={300} height={300}>
+    <PieChart width={400} height={300}>
       <Pie
         data={data}
         dataKey="value"

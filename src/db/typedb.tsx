@@ -12,6 +12,18 @@ export const getType = async (id: number) => {
   return result;
 };
 
+export const getTypeNamebyId = async (
+  id: number
+): Promise<string | undefined> => {
+  const db = await dbPromise;
+
+  // Fetch the type entry by ID from typeClusters
+  const typeEntry = await db.get("typeClusters", id);
+
+  // If the typeEntry exists, return its name
+  return typeEntry ? typeEntry.name : undefined;
+};
+
 export const getTypePicbyname = async (name: string) => {
   const db = await dbPromise;
   const alltype = await db.getAll("typeClusters");

@@ -32,7 +32,7 @@ const DailyRecordItem = (record: DailyRecordItemModel) => {
                     />
                   ) : null}
                   <div className="mb-0">
-                    <p>項目: {item.type}</p>
+                    <p>項目: {item.remark}</p>
                     <p>金額: {item.cost}</p>
                   </div>
                 </div>

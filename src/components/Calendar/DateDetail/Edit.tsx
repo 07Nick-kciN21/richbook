@@ -42,7 +42,7 @@ const Edit: React.FC<EditProps> = ({
   const handleSelectChange = async (selectedOption) => {
     setFormData({
       ...formData,
-      ["type"]: selectedOption.value,
+      ["type"]: selectedOption.id,
     });
     const newSelection = typeEntries.find(
       (entry) => entry.name === selectedOption.value
@@ -65,7 +65,7 @@ const Edit: React.FC<EditProps> = ({
     const fetchFormData = async () => {
       const entries = await getTypeEntries();
       setTypeEntries(entries);
-      setSelectData(entries.find((entry) => entry.name === formData.type));
+      setSelectData(entries.find((entry) => entry.id === formData.type));
     };
     fetchFormData();
   }, []);
@@ -122,6 +122,7 @@ const Edit: React.FC<EditProps> = ({
             <Select
               options={typeEntries.map((entry) => ({
                 value: entry.name,
+                id: entry.id,
                 label: (
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <img

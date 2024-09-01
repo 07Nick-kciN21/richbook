@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { typeEntry } from "../../interface/financialentry";
-import { editTpye } from "../../db/typedb";
+import { editTpye, deleteType } from "../../db/typedb";
 
 interface EditProps {
   setSubTrigger: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +20,15 @@ const Edit: React.FC<EditProps> = ({ setSubTrigger, setEditForm, oldType }) => {
     e.preventDefault();
     await editTpye(formData);
     setSubTrigger((prev: boolean) => !prev);
+    setEditForm((prev: boolean) => !prev);
   };
+
+  const deldata = async () => {
+    await deleteType(formData.id);
+    setEditForm((prev: boolean) => !prev);
+    setSubTrigger((prev: boolean) => !prev);
+  };
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "pic") {
@@ -42,6 +50,7 @@ const Edit: React.FC<EditProps> = ({ setSubTrigger, setEditForm, oldType }) => {
         [name]: value,
       });
   };
+
   return (
     <div className="border p-3">
       <form onSubmit={handleSubmit}>
@@ -80,7 +89,16 @@ const Edit: React.FC<EditProps> = ({ setSubTrigger, setEditForm, oldType }) => {
           )}
         </div>
         <button type="button submit" className="btn btn-primary">
-          編輯類別
+          編輯
+        </button>
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={() => {
+            deldata();
+          }}
+        >
+          刪除
         </button>
         <button
           type="button"
