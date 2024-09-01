@@ -3,11 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage":"https://07nick-kcin21.github.io/richbook/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@types/react": "^18.3.3",
@@ -28,6 +31,7 @@
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.1.0",
+    "gh-pages": "^6.1.1",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.5",
     "typescript": "^5.5.4",
